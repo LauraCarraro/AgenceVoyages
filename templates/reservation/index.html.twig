@@ -3,7 +3,7 @@
 {% block title %}Reservation index{% endblock %}
 
 {% block body %}
-    <h1>Reservation index</h1>
+    <h1>Liste des réservations</h1>
 
     <table class="table">
         <thead>
@@ -13,7 +13,8 @@
                 <th>Nom</th>
                 <th>Email</th>
                 <th>Tel</th>
-                <th>actions</th>
+                <th>Voyage</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -24,18 +25,19 @@
                 <td>{{ reservation.nom }}</td>
                 <td>{{ reservation.email }}</td>
                 <td>{{ reservation.tel }}</td>
+                <td>{{ reservation.voyage.nom }}</td>
                 <td>
-                    <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}">show</a>
-                    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
+                    <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" class="btn btn-primary m-1">Voir</a>
+                    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="btn btn-primary m-1">Editer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Aucune réservation enregistrée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_reservation_new') }}">Create new</a>
+    <a href="{{ path('app_reservation_new') }}" class="btn btn-primary m-2">Créer une réservation</a>
 {% endblock %}

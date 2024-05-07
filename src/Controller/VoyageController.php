@@ -10,13 +10,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMIN')]
+#[IsGranted('ROLE_USER')]
 #[Route('/voyage', name: 'app_voyage_')]
 class VoyageController extends AbstractController
 {
-    #[Route('/', name: 'index', methods: ['GET'])]
+    #[Route('s', name: 'index', methods: ['GET'])]
     public function index(VoyageRepository $voyageRepository): Response
     {
         return $this->render('voyage/index.html.twig', [
@@ -32,6 +33,7 @@ class VoyageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $voyage->setUser($this->getUser());
             $entityManager->persist($voyage);
             $entityManager->flush();
 
@@ -53,8 +55,15 @@ class VoyageController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Voyage $voyage, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, UserInterface $user, Voyage $voyage, EntityManagerInterface $entityManager): Response
     {
+        if ($this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')) {
+            
+            if ($voyage->getUser() !== $user) {
+                $this->addFlash('error', 'Vous ne pouvez pas modifier ce voyage.');
+                return $this->redirectToRoute('app_voyage_index');
+            }
+        }
         $form = $this->createForm(VoyageType::class, $voyage);
         $form->handleRequest($request);
 
@@ -71,8 +80,15 @@ class VoyageController extends AbstractController
     }
 
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, Voyage $voyage, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, UserInterface $user,Voyage $voyage, EntityManagerInterface $entityManager): Response
     {
+        if ($this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')) {
+            
+            if ($voyage->getUser() !== $user) {
+                $this->addFlash('error', 'Vous ne pouvez pas supprimer ce voyage.');
+                return $this->redirectToRoute('app_voyage_index');
+            }
+
         if ($this->isCsrfTokenValid('delete'.$voyage->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($voyage);
             $entityManager->flush();
@@ -80,4 +96,4 @@ class VoyageController extends AbstractController
 
         return $this->redirectToRoute('app_voyage_index', [], Response::HTTP_SEE_OTHER);
     }
-}
+}}

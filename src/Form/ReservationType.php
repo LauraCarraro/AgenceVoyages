@@ -21,11 +21,11 @@ class ReservationType extends AbstractType
             ->add('tel')
             ->add('voyage', EntityType::class, [
                 'class' => Voyage::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
             ->add('Statut', EntityType::class, [
                 'class' => Statut::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
         ;
     }

@@ -34,10 +34,6 @@ class VoyageType extends AbstractType
                 'class' => Destination::class,
                 'choice_label' => 'nom',
             ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'prenom',
-            ])
         ;
     }
 

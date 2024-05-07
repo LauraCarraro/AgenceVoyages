@@ -30,9 +30,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_reservation_index') }}">back to list</a>
+    <a href="{{ path('app_reservation_index') }}" class="btn btn-primary m-2">Retour à la liste</a>
 
-    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
+    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="btn btn-primary m-2">Editer</a>
 
     {{ include('reservation/_delete_form.html.twig') }}
 {% endblock %}

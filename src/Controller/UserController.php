@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[IsGranted('ROLE_ADMIN')]
+#[IsGranted('ROLE_USER')]
 #[Route('/user', name: 'app_user_')]
 class UserController extends AbstractController
 {
@@ -26,7 +26,12 @@ class UserController extends AbstractController
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    {   
+        if ($this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')) {
+        
+                $this->addFlash('errorUser', 'Vous ne pouvez pas créer un utilisateur.');
+                return $this->redirectToRoute('app_user_index');
+            }
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -55,6 +60,13 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+        $utilisateurConnecte = $this->getUser();
+        if ($this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')&& $user !== $utilisateurConnecte) {
+        
+                $this->addFlash('errorUser', 'Vous ne pouvez pas modifier cet utilisateur.');
+                return $this->redirectToRoute('app_user_index');
+            }
+        
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -73,6 +85,13 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+        $utilisateurConnecte = $this->getUser();
+        if ($this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')&& $user !== $utilisateurConnecte) {
+        
+                $this->addFlash('errorUser', 'Vous ne pouvez pas supprimer cet utilisateur.');
+                return $this->redirectToRoute('app_user_index');
+            }
+        
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();

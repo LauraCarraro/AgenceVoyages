@@ -6,6 +6,7 @@ namespace App\Entity;
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
@@ -16,18 +17,22 @@ class Reservation
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le prenom ne doit pas être vide.')]
     #[Groups(['api_reservation_index'])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom ne doit pas être vide.')]
     #[Groups(['api_reservation_index'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['api_reservation_index'])]
+    #[Assert\NotBlank(message: 'L\'email ne doit pas être vide.')]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le telephone ne doit pas être vide.')]
     #[Groups(['api_reservation_index'])]
     private ?string $tel = null;
 

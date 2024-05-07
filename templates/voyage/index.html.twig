@@ -4,30 +4,38 @@
 
 {% block body %}
     <h1>Liste des voyages</h1>
-
+{% for message in app.flashes('success') %}
+        <div class="bg-success my-3">
+            <h4>{{ message | join('. <br>') }}</h4>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="bg-danger my-3">
+            <h4>{{ message | join('. <br>') }}</h4>
+        </div>
+    {% endfor %}
+    
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
-                <th>Description</th>
+                <th>Catégorie</th>
                 <th>Prix</th>
                 <th>Date_debut</th>
-                <th>Date_fin</th>
-                <th>Image_url</th>
+                <th>Date_fin</th>            
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for voyage in voyages %}
             <tr>
-                <td>{{ voyage.id }}</td>
+                
                 <td>{{ voyage.nom }}</td>
-                <td>{{ voyage.description }}</td>
+                <td>{{ voyage.categorie.nom }}</td>
                 <td>{{ voyage.prix }}</td>
                 <td>{{ voyage.dateDebut ? voyage.dateDebut|date('Y-m-d') : '' }}</td>
                 <td>{{ voyage.dateFin ? voyage.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ voyage.imageUrl }}</td>
+                
                 <td>
                     <a href="{{ path('app_voyage_show', {'id': voyage.id}) }}" class="btn btn-primary m-1">Voir</a>
     
@@ -37,7 +45,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun voyage créé</td>
             </tr>
         {% endfor %}
         </tbody>

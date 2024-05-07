@@ -4,6 +4,16 @@
 
 {% block body %}
     <h1>Liste des utilisateurs</h1>
+    {% for message in app.flashes('success') %}
+        <div class="bg-success my-3">
+            <h4>{{ message | join('. <br>') }}</h4>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('errorUser') %}
+        <div class="bg-danger my-3">
+            <h4>{{ message | join('. <br>') }}</h4>
+        </div>
+    {% endfor %}
 
     <table class="table">
         <thead>
@@ -33,7 +43,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun utilisateur enregistré</td>
             </tr>
         {% endfor %}
         </tbody>
