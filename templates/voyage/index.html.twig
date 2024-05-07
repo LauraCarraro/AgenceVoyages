@@ -3,7 +3,7 @@
 {% block title %}Voyage index{% endblock %}
 
 {% block body %}
-    <h1>Voyage index</h1>
+    <h1>Liste des voyages</h1>
 
     <table class="table">
         <thead>
@@ -15,7 +15,7 @@
                 <th>Date_debut</th>
                 <th>Date_fin</th>
                 <th>Image_url</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,8 +29,10 @@
                 <td>{{ voyage.dateFin ? voyage.dateFin|date('Y-m-d') : '' }}</td>
                 <td>{{ voyage.imageUrl }}</td>
                 <td>
-                    <a href="{{ path('app_voyage_show', {'id': voyage.id}) }}">show</a>
-                    <a href="{{ path('app_voyage_edit', {'id': voyage.id}) }}">edit</a>
+                    <a href="{{ path('app_voyage_show', {'id': voyage.id}) }}" class="btn btn-primary m-1">Voir</a>
+    
+                    <a href="{{ path('app_voyage_edit', {'id': voyage.id}) }}" class="btn btn-primary m-1">Editer</a>
+                
                 </td>
             </tr>
         {% else %}
@@ -41,5 +43,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_voyage_new') }}">Create new</a>
+    <a href="{{ path('app_voyage_new') }}" class="btn btn-primary m-2">Créer un voyage</a>
 {% endblock %}

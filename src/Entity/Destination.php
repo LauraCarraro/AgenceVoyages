@@ -6,6 +6,7 @@ use App\Repository\DestinationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DestinationRepository::class)]
 class Destination
@@ -16,6 +17,7 @@ class Destination
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_destination_index'])]
     private ?string $nom = null;
 
     /**
