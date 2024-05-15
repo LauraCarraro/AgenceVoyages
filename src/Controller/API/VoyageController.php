@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\Entity\Voyage;
 use App\Repository\VoyageRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +22,10 @@ class VoyageController extends AbstractController
         ]);
     }
    #[Route('/{id}', name: 'show')]
-    public function show(Voyage $voyage): JsonResponse
+    public function show(EntityManagerInterface $entityManager, $id): JsonResponse
     {
-        return $this -> json($voyage, context: ['groups' => ['api_voyage_index', 'api_voyage_show']]);
+       $repo = $entityManager->getRepository(Voyage::class);
+       $voyage = $repo->findOneBy(['nom' => $id]);
+       return $this -> json($voyage, context: ['groups' => ['api_voyage_index', 'api_voyage_show']]);
     }
 }
