@@ -20,32 +20,32 @@ class Voyage
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Le nom ne doit pas être vide.')]
-    #[Groups(['api_voyage_index'])]
+    #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'La description ne doit pas être vide.')]
-    #[Groups(['api_voyage_index'])]
+    #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Le prix ne doit pas être vide.')]
-    #[Groups(['api_voyage_index'])]
+    #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?string $prix = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message: 'La date de début ne doit pas être vide.')]
-    #[Groups(['api_voyage_index'])]
+    #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?\DateTimeInterface $date_debut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message: 'La date de fin ne doit pas être vide.')]
-    #[Groups(['api_voyage_index'])]
+    #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?\DateTimeInterface $date_fin = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'L\'URL image ne doit pas être vide.')]
-    #[Groups(['api_voyage_index'])]
+    #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?string $image_url = null;
 
     /**
@@ -55,9 +55,11 @@ class Voyage
     private Collection $Reservation;
 
     #[ORM\ManyToOne(inversedBy: 'voyages')]
+    #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?Categorie $Categorie = null;
 
     #[ORM\ManyToOne(inversedBy: 'voyages')]
+    #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?Destination $Destination = null;
 
     #[ORM\ManyToOne(inversedBy: 'Voyage')]
