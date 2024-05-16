@@ -23,14 +23,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Le prenom ne doit pas être vide.')]
+    #[Assert\Length(min: 3, max: 255, minMessage: "Le prenom doit contenir au moins {{ limit }} caractères.", maxMessage: "Le prenom ne doit pas contenir plus de {{ limit }} caractères.")]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Le nom ne doit pas être vide.')]
+    #[Assert\Length(min: 3, max: 255, minMessage: "Le nom doit contenir au moins {{ limit }} caractères.", maxMessage: "Le nom ne doit pas contenir plus de {{ limit }} caractères.")]
     private ?string $nom = null;
     
     #[ORM\Column(length: 180)]
     #[Assert\NotBlank(message: 'L\'adresse mail ne doit pas être vide.')]
+    #[Assert\Email(message:"L'adresse e-mail n'est pas valide.")]
     private ?string $email = null;
 
     /**

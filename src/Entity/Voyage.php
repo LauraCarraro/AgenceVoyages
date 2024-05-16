@@ -19,32 +19,35 @@ class Voyage
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Le nom ne doit pas être vide.')]
+    #[Assert\NotBlank(message:"Le nom ne doit pas être vide.")]
     #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'La description ne doit pas être vide.')]
+    #[Assert\NotBlank(message:"La description ne doit pas être vide.")]
     #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Le prix ne doit pas être vide.')]
+    #[Assert\NotBlank(message:"Le prix ne doit pas être vide.")]
+    #[Assert\Regex(pattern:"/^(?=.*[0-9])(?=.*€)[0-9€]+$/", message:"Le prix doit contenir un chiffre et un €.")]
     #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?string $prix = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotBlank(message: 'La date de début ne doit pas être vide.')]
+    #[Assert\NotBlank(message:"La date de début ne doit pas être vide.")]
+    #[Assert\GreaterThanOrEqual("today", message:"La date de début ne peut pas être antérieure à aujourd'hui.")]
     #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?\DateTimeInterface $date_debut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotBlank(message: 'La date de fin ne doit pas être vide.')]
+    #[Assert\NotBlank(message:"La date de fin ne doit pas être vide.")]
+    #[Assert\LessThanOrEqual("+1 year", message:"La date de fin ne peut pas être postérieure à un an à partir d'aujourd'hui.")]
     #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?\DateTimeInterface $date_fin = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'L\'URL image ne doit pas être vide.')]
+    #[Assert\NotBlank(message:"L\'URL image ne doit pas être vide.")]
     #[Groups(['api_voyage_index', 'api_voyage_show'])]
     private ?string $image_url = null;
 
